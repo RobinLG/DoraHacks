@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>public customer core library</description>
+	<display-name>Public JSTL</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>p</short-name>
+	<uri>WEB-INF/pp.tld</uri>
+	
+	<tag>
+		<name>options</name>
+		<tag-class>com.yitong.commons.taglib.OptionsTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+	        <description>数据字典类型</description>
+			<name>itemType</name>
+			<required>true</required>
+			<type>java.lang.String</type>	
+        	<rtexprvalue>true</rtexprvalue>		
+		</attribute>
+		<attribute>
+	        <description>默认值</description>
+			<name>defaultValue</name>
+			<required>false</required>
+        	<rtexprvalue>true</rtexprvalue>		
+		</attribute> 
+		<attribute>
+	        <description>语言</description>
+			<name>language</name>
+			<required>false</required>
+			<type>java.lang.String</type>	
+        	<rtexprvalue>true</rtexprvalue>
+		</attribute>	
+		<attribute>
+	        <description>键值</description>
+			<name>bothValue</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>			
+		</attribute>
+		<attribute>
+	        <description>是否显示键值</description>
+			<name>showKey</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>		
+        	<rtexprvalue>true</rtexprvalue>	
+		</attribute>
+		<attribute>
+	        <description>键值分隔符</description>
+			<name>splitString</name>
+			<required>false</required>
+			<type>java.lang.String</type>			
+		</attribute>
+	</tag>
+  <function>
+    <description>URL编码</description>
+    <name>urlEncode</name>
+    <function-class>com.yitong.commons.util.Encodes</function-class>
+    <function-signature>java.lang.String urlEncode(java.lang.String)</function-signature>
+    <example>${fns:urlEncode(part)}</example>  
+  </function>
+  <function>
+    <description>URL解码</description>
+    <name>urlDecode</name>
+    <function-class>com.yitong.commons.util.Encodes</function-class>
+    <function-signature>java.lang.String urlDecode(java.lang.String)</function-signature>
+    <example>${fns:urlDecode(part)}</example>  
+  </function>
+  <function>
+    <description>XML编码</description>
+    <name>escapeXml</name>
+    <function-class>com.yitong.commons.util.Encodes</function-class>
+    <function-signature>java.lang.String escapeXml(java.lang.String)</function-signature>
+    <example>${fns:escapeXml(xml)}</example>  
+  </function>
+  <function>
+    <description>XML解码</description>
+    <name>unescapeXml</name>
+    <function-class>com.yitong.commons.util.Encodes</function-class>
+    <function-signature>java.lang.String unescapeXml(java.lang.String)</function-signature>
+    <example>${fns:unescapeXml(xml)}</example>  
+  </function>
+  
+  <function>
+    <description>缩写字符串，超过最大宽度用“...”表示</description>
+    <name>abbr</name>
+    <function-class>com.yitong.commons.util.StringUtil</function-class>
+    <function-signature>java.lang.String abbr(java.lang.String, int)</function-signature>
+    <example>${fns:abbr(str,length)}</example>  
+  </function>
+	 
+</taglib>

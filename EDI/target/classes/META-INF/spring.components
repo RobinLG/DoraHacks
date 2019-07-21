@@ -1,0 +1,9 @@
+#
+#Sat Jul 20 12:37:04 CST 2019
+com.ssm.cqg.action.SubmitAction=org.springframework.stereotype.Component
+com.ssm.cqg.action.AdminAction=org.springframework.stereotype.Component
+com.ssm.cqg.action.UserAction=org.springframework.stereotype.Component
+com.ssm.cqg.dao.IParamDao=org.springframework.stereotype.Component
+com.ssm.cqg.service.impl.UserService=org.springframework.stereotype.Component
+com.ssm.cqg.action.LoginAction=org.springframework.stereotype.Component
+com.ssm.cqg.dao.IUserDao=org.springframework.stereotype.Component

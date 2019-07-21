@@ -1,0 +1,45 @@
+/*通用CSS属性*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/*最外层的*/
+.carousel {
+    width: 580px;
+    height: 360px;
+    margin: 30px auto;
+}
+
+/*图片切换的范围*/
+.banner {
+    width: 580px;
+    height: 360px;
+    overflow: hidden;
+    position: relative;
+}
+
+/*存储图片的ul*/
+.figureList {
+    list-style: none;
+    /*存储的图片的总宽度*/
+    width: 3480px;
+    height: 360px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.figureList li {
+    float: left;
+    /*转换为行元素*/
+    display: inline;
+}
+
+.figureList li a {
+    text-decoration: none;
+}
+
+.figureList li img {
+    width: 580px;
+    height: 360px;
+}

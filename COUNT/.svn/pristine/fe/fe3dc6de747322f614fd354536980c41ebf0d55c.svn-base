@@ -1,0 +1,40 @@
+				<h4>网站设置</h4>
+				<hr />
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+					    <label for="firstname" class="col-sm-2 control-label">网站名字</label>
+					    <div class="col-sm-10">
+					      <input style="width: 35%;" type="text" class="form-control" id="appName" name="appName" placeholder="请输入网站名字">
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="lastname" class="col-sm-2 control-label">网站是否开放</label>
+					    <div class="col-sm-10">
+					    	<select id="on_off" name="on_off" class="form-control" style="width: 90px;">
+					    		<option value="1">开放</option>
+					    		<option value="0">不开放</option>
+					    	</select>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="lastname" class="col-sm-2 control-label">是否开通百度搜索进入</label>
+					    <div class="col-sm-10">
+					    	<select name="baidu_on" class="form-control" style="width: 90px;">
+					    		<option value="1">是</option>
+					    		<option value="0">否</option>
+					    	</select>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label for="firstname" class="col-sm-2 control-label">授权码</label>
+					    <div class="col-sm-10">
+					      <input style="width: 35%;" type="text" class="form-control" id="token" name="token" placeholder="请输入网站名字">
+					    </div>
+					</div>
+					<div class="form-group">
+									<div class="col-sm-4 col-sm-offset-2">
+										<button class="btn btn-primary" type="submit">保存信息</button>&nbsp;&nbsp;&nbsp;
+										<a class="btn btn-danger" href="#">取消</a>
+									</div>
+					</div>
+				</form>

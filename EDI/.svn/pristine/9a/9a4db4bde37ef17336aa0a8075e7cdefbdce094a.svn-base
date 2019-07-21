@@ -1,0 +1,224 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.ssm.cqg.action;
+
+
+import com.ssm.cqg.app.BcosApp;
+import com.ssm.cqg.sample.EvidenceData;
+import com.ssm.cqg.service.IUserService;
+
+import org.fisco.bcos.web3j.abi.datatypes.Address;
+import sun.security.provider.MD5;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping({"/login"})
+public class LoginAction {
+    @Autowired
+    private IUserService iUserService;
+
+    public LoginAction() {
+    }
+
+    @RequestMapping({"toLogin"})
+    public String Login(Model model, HttpServletRequest request) {
+        String referee_id = request.getParameter("referee_id");
+        model.addAttribute("referee", referee_id);
+        return null;
+    }
+
+    @RequestMapping({"toLoginAdmin"})
+    public String toLoginAdmin(Model model, HttpServletRequest request) throws Exception {
+
+
+        BcosApp app = new BcosApp();
+        Address address=null;
+        Address newEvidenceAddress=null;
+        boolean configure = app.loadConfig();
+//		args = new String[4];
+//		args[0] = "deploy";
+//		args[1] = "user.jks";
+//		args[2] = "123456";
+//		args[3] = "123456";
+//		0x0f74e2529e561b2749034a3d235da8cf04ab8bea
+
+
+//		args = new String[7];
+//		args[0] = "new";
+//		args[1] = "user.jks";
+//		args[2] = "123456";
+//		args[3] = "123456";
+//		args[4] = "0x0f74e2529e561b2749034a3d235da8cf04ab8bea";
+//		args[5] = "00001";
+//		args[6] = "age:14;name:robin;position:software engineer2";
+//		0xa229f5c6deeda53e84bdf1b7600ae2df09b36b1f
+
+//		args = new String[5];
+//		args[0] = "send";
+//		args[1] = "arbitrator.jks";
+//		args[2] = "123456";
+//		args[3] = "123456";
+//		args[4] = "0xa229f5c6deeda53e84bdf1b7600ae2df09b36b1f";
+//
+//		args = new String[5];
+//		args[0] = "send";
+//		args[1] = "depositor.jks";
+//		args[2] = "123456";
+//		args[3] = "123456";
+//		args[4] = "0xa229f5c6deeda53e84bdf1b7600ae2df09b36b1f";
+
+		String[] args = new String[5];
+		args[0] = "get";
+		args[1] = "user.jks";
+		args[2] = "123456";
+		args[3] = "123456";
+		args[4] = "0xa229f5c6deeda53e84bdf1b7600ae2df09b36b1f";
+
+//        String[] args = new String[5];
+//        args[0] = "verify";
+//        args[1] = "user.jks";
+//        args[2] = "123456";
+//        args[3] = "123456";
+//        args[4] = "0xa229f5c6deeda53e84bdf1b7600ae2df09b36b1f";
+        if(args.length<4)
+        {
+            System.out.println("输入参数最小为4");
+            System.exit(0);
+        }
+        if (!configure) {
+            System.err.println("error in load configure, init failed !!!");
+            System.exit(0);
+        }
+        //System.out.println(LOGO);
+        switch (args[0]) {
+            //deploy
+            case "deploy":
+                //此方法需要传入3个参数，参数1为keyStoreFileName（私钥文件名），参数2为keyStorePassword，参数3为keyPassword
+                address=app.deployContract(args[1],args[2],args[3]);
+                System.out.println("-----------deploy factoryContract success, address: " + address.toString());
+                break;
+            //newEvidence
+            case "new":
+                //参数1为keyStoreFileName（私钥文件名），参数2为keyStorePassword，参数3为keyPassword,传入的参数需要部署的工厂合约地址,evidence_id、evidence_hash
+                newEvidenceAddress=app.newEvidence(args[1],args[2],args[3],args[4],args[5],args[6]);
+                System.out.println("------------newEvidence success, newEvidenceAddress: " + newEvidenceAddress.toString());
+                break;
+            //sendSignatureToBlockChain
+            case "send":
+                //1.私钥文件名 2.keyStorePassword 3.keyPassword 4.newEvidenceAddress
+                //通过证据地址获取证据信息
+                EvidenceData evidenceData2 = app.getEvidence(args[1],args[2],args[3],args[4]);
+                boolean falg = app.sendSignatureToBlockChain(args,evidenceData2.getEvidenceHash());
+                if(falg){
+                    System.out.println("-----------sendSignatureToBlockChain success！"+falg);
+                }else{
+                    System.out.println("------------sendSignatureToBlockChain failed！"+falg);
+                }
+                break;
+            //getEvidence
+            case "get":
+                //传入参数为1.私钥文件名 2.keyStorePassword 3.keyPassword 4.newEvidence返回地址
+                EvidenceData evidenceData = app.getEvidence(args[1],args[2],args[3],args[4]);
+                System.out.println("the evidenceID: " + evidenceData.getEvidenceID());
+                System.out.println("the evidenceHash: " + evidenceData.getEvidenceHash());
+                List<String> signatureslist=evidenceData.getSignatures();
+                for(int i=0;i<signatureslist.size();i++){
+                    String signatures=signatureslist.get(i);
+                    System.out.println("the signature[" + i + "]: "+signatures);
+                }
+                List<String> publicKeyslist=evidenceData.getPublicKeys();
+                for(int i=0;i<publicKeyslist.size();i++){
+                    String publicKey=publicKeyslist.get(i);
+                    System.out.println("the publicKey[" + i + "]: "+publicKey);
+                }
+                break;
+            case "verify":
+                //传入参数为1.私钥文件名 2.keyStorePassword 3.keyPassword 4.newEvidence返回地址
+                EvidenceData evidenceData1 = app.getEvidence(args[1],args[2],args[3],args[4]);
+                boolean flag=app.verifyEvidence(evidenceData1);
+                if(flag){
+                    System.out.println("--------verifyEvidence success:"+flag);
+                }else{
+                    System.out.println("--------verifyEvidence failed:"+flag);
+                }
+                break;
+            case "getPublicKey":
+                String publicKey=app.getPublicKey(args[1], args[2], args[3]);
+                System.out.println("---------publicKey:"+publicKey);
+                break;
+            default:
+                break;
+        }
+
+
+
+
+        return "";
+        //return "login_admin";
+    }
+
+    @RequestMapping({"checkAdmin"})
+    public String checkAdmin(Model model, HttpServletRequest request,HttpServletResponse res) {
+        String userName = request.getParameter("user");
+        String pwd = request.getParameter("password");
+        Map user = this.iUserService.queryUserById(userName);
+        try{
+        
+        if(user != null) {
+            if(user.get("password").equals(pwd)) {
+                if(("" + user.get("user_type")).equals("0")) {
+                    model.addAttribute("result", "true");
+                    model.addAttribute("user", userName);
+                    model.addAttribute("userId", user.get("customer_id"));
+                    model.addAttribute("pwd", pwd);
+                    Cookie c = new Cookie("cqsscUserName",userName+"-"+pwd);
+                    c.setPath(request.getContextPath());
+                    c.setMaxAge(3600*24);
+                    res.addCookie(c);
+                } else {
+                    model.addAttribute("result", "false");
+                }
+            } else {
+                model.addAttribute("result", "false");
+            }
+        } else {
+            model.addAttribute("result", "false");
+        }
+
+        }catch(Exception e){
+        	
+        }
+        return "login_code_admin";
+    	
+    }
+    
+    public String getMD5Str(String str) throws Exception {
+        try {
+            // ����һ��MD5���ܼ���ժҪ
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // ����md5����
+            md.update(str.getBytes());
+            // digest()���ȷ������md5 hashֵ������ֵΪ8Ϊ�ַ�������Ϊmd5 hashֵ��16λ��hexֵ��ʵ���Ͼ���8λ���ַ�
+            // BigInteger������8λ���ַ���ת����16λhexֵ�����ַ�������ʾ���õ��ַ�����ʽ��hashֵ
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (Exception e) {
+            throw new Exception("MD5���ܳ��ִ���"+e.toString());
+        }
+    }
+}

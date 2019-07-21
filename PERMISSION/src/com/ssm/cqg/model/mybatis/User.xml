@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<!--     
+    namespace：必须与对应的接口全类名一致  UserMapper.java  
+    id ：必须与对应接口的某个对应的方法名一致即必须要和UserMapper.java接口中的方法同名。  
+ -->
+<mapper namespace="com.ssm.cqg.dao.IUserDao">
+    <!-- 新增用户-->
+    <insert id="saveUser" parameterType="com.ssm.cqg.model.User">
+        insert into User(user_id,user_name,weixin_name,user_phone,money_bag,charges,pwd,referee_id,user_type) value(#{id},#{username},#{weixinName},#{phone},0,0,#{pwd},#{referee},0)
+    </insert>
+
+    <!-- 修改用户 -->
+    <update id="updateUser" parameterType="com.ssm.cqg.model.User">
+        update User set
+        <if test="pwd != null and pwd !='' ">
+        	pwd=#{pwd},
+        </if>
+        <if test="weixinName != null and weixinName !='' ">
+        	weixin_name=#{weixinName},
+        </if>
+        <if test="phone != null and phone !='' ">
+        	user_phone=#{phone},
+        </if>
+        <if test="money != null and money !='' ">
+        	money_bag=#{money},
+        </if>
+        <if test="charges != null and charges !='' ">
+        	charges=#{charges},
+        </if>
+        <if test="usertype != null and usertype !='' ">
+        	user_type=#{usertype},
+        </if> 
+        user_id=#{id} where user_id=#{id}
+    </update>
+    <!-- 删除用户 -->
+    <delete id="deleteUser" parameterType="com.ssm.cqg.model.User">
+        delete from User where user_id = #{id}
+    </delete>
+    <!-- 根据id查找用户 -->
+    <select id="queryUserById" parameterType="string" resultType="java.util.Map">
+        select * from customer where username=#{username}
+    </select>
+    <!-- 查询所有用户 -->
+    <select id="queryAllUser" resultType="java.util.Map" parameterType="map">
+        SELECT cu.*,c2.nickname nn,c2.username us FROM customer cu LEFT JOIN customer c2 ON cu.agency_id=c2.customer_id where cu.user_type in (0,1)
+        <if test="userName != null and userName !='' ">
+        	and cu.nickname like '%${userName}%' or cu.username like '%${userName}%'
+        </if>
+    </select>
+    
+     <!-- 根据id查找用户下线 -->
+    <select id="queryRefereeById" parameterType="string" resultType="java.util.Map">
+        select user_id userId from User where referee_id=#{referee}
+    </select>
+    
+    <!-- 根据id查找用户提现记录-->
+    <select id="querySerialById" parameterType="string" resultType="java.util.Map">
+        select * from cash_serial where user_id=#{userId}
+    </select>
+    
+    <!-- 新增提现记录-->
+    <insert id="insertSerialById" parameterType="map">
+        insert into cash_serial (user_id,cash,data_time,status,weixin,fangshi)VALUES(#{userId},#{cash},#{datatime},0,#{weixin},#{fangshi})
+    </insert>
+    
+    <!--查找所有提现记录-->
+    <select id="querySerialAll" parameterType="map" resultType="java.util.Map">
+        select cs.serial,cs.user_id userId,cs.cash,cs.data_time dateTime,cs.status,cs.weixin,cs.fangshi,u.weixin_name weixinName from cash_serial cs 
+        left join user u on u.user_id=cs.user_id
+        <if test="status != null and status !='' ">
+        	where status=#{status}
+        </if>
+        order by cs.serial desc
+    </select>
+    
+    <!-- 修改提现申请状态 -->
+    <update id="updateTiXian" parameterType="map">
+        update cash_serial set status=#{status} where serial=#{serial}
+    </update>
+    
+    
+    <!-- 新增申请代理-->
+    <insert id="shenqingdaili" parameterType="map">
+        insert into shenqing (user_id,weixin,phone,status)VALUES(#{userId},#{weixin},#{phone},0)
+    </insert>
+    
+    <!-- 根据id查找是否有申请代理-->
+    <select id="queryShenqingById" parameterType="string" resultType="java.util.Map">
+        select sq.*,u.weixin_name weixinName from shenqing sq left join user u on u.user_id=sq.user_id where sq.user_id=#{userId} and sq.status='0'
+    </select>
+    
+    <!-- 查找所有的申请代理-->
+    <select id="queryShenqing" parameterType="map" resultType="java.util.Map">
+        select sq.serial,sq.user_id userId,sq.weixin,sq.status,sq.phone,u.weixin_name weixinName from shenqing sq left join user u on u.user_id=sq.user_id  
+        <if test="status != null and status !='' ">
+        	where sq.status=#{status}
+        </if>
+        order by sq.serial desc
+    </select>
+    
+        <!-- 修改申请状态 -->
+    <update id="updateShenQing" parameterType="map">
+        update shenqing set status=#{status} where serial=#{serial}
+    </update>
+    
+    <!-- cqg -->
+    <insert id="saveJqr" parameterType="map">
+        insert into customer(nickname,username,wechat_id,integral,create_time,password,charges,user_type) value(#{nickname},#{username},'jqr',0,#{create_time},'123456',0,2)
+    </insert>
+    
+    <delete id="deleteJqr" parameterType="map">
+        delete from customer where customer_id = #{customer_id}
+    </delete>
+
+    <update id="updateChongzhi" parameterType="map">
+        update customer set integral=#{integral} where customer_id=#{customer_id}
+    </update>
+    
+    <update id="updateShoudongChongzhi" parameterType="map">
+        update customer set integral=(integral+#{integral}) where customer_id=#{customer_id}
+    </update>
+    
+    <update id="updateEdit" parameterType="map">
+        update customer set customer_id=#{customer_id} 
+        <if test="nickname != null and nickname !='' ">
+        	,nickname=#{nickname} 
+        </if>
+        <if test="psw != null and psw !='' ">
+        	,password=#{psw}
+        </if>
+        <if test="agency_id != null and agency_id !='' ">
+        	,agency_id=#{agency_id}
+        </if>
+        <if test="user_type != null and user_type !='' ">
+        	,user_type=#{user_type}
+        </if>
+        <if test="enable != null and enable !='' ">
+        	,enable=#{enable}
+        </if>
+          where customer_id=#{customer_id}
+    </update>
+    
+    
+    
+</mapper>

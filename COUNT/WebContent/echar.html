@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<link type="text/css" rel="stylesheet" href="./resource/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="./resource/css/customs.css">
+    <script src="./resource/js/jquery.min.js"></script>
+    <script src="./resource/js/bootstrap.min.js"></script>
+    <script src="./resource/js/jquery.cookie.js"></script>
+	<script src="./resource/js/jquery.validate.min.js"></script>
+    <script src="./resource/js/common.js"></script>
+    <script src="./resource/js/dist/echarts.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+	<div class="col-sm-12">
+		<div class="">
+			<h3 class="text-center">
+				數據統計
+			</h3>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div id="main" style="height:400px;"></div>
+		<script type="text/javascript">
+        require.config({
+            paths: {
+                echarts: './resource/js/dist'
+            }
+        });
+        require(
+            [
+                'echarts',
+                'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+                'echarts/chart/bar'
+            ],
+            function (ec) {
+                var myChart = ec.init(document.getElementById('main'));
+                var option = {
+                	 title: {
+        x: 'center',
+        text: '',
+        subtext: '',
+        link: 'http://echarts.baidu.com/doc/example.html'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+        }
+    },
+    calculable: true,
+    grid: {
+        borderWidth: 0,
+        y: 80,
+        y2: 60
+    },
+    xAxis: [
+        {
+            type: 'category',
+            show: false,
+            data: ['Line', 'Bar', 'Scatter', 'K', 'Pie', 'Radar', 'Chord', 'Force', 'Map', 'Gauge', 'Funnel']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            show: false
+        }
+    ],
+    series: [
+        {
+            name: '統計頁面',
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function(params) {
+                        // build a color map as your need.
+                        var colorList = [
+                          '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                           '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                           '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{b}\n{c}'
+                    }
+                }
+            },
+            data: [12,21,10,4,12,5,6,5,25,23,7],
+            markPoint: {
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    formatter: function(params){
+                        return '<img src="' 
+                                + params.data.symbol.replace('image://', '')
+                                + '"/>';
+                    }
+                },
+                data: [
+                    {xAxis:0, y: 350, name:'Line', symbolSize:20, symbol: 'image://../asset/ico/折线图.png'},
+                    {xAxis:1, y: 350, name:'Bar', symbolSize:20, symbol: 'image://../asset/ico/柱状图.png'},
+                    {xAxis:2, y: 350, name:'Scatter', symbolSize:20, symbol: 'image://../asset/ico/散点图.png'},
+                    {xAxis:3, y: 350, name:'K', symbolSize:20, symbol: 'image://../asset/ico/K线图.png'},
+                    {xAxis:4, y: 350, name:'Pie', symbolSize:20, symbol: 'image://../asset/ico/饼状图.png'},
+                    {xAxis:5, y: 350, name:'Radar', symbolSize:20, symbol: 'image://../asset/ico/雷达图.png'},
+                    {xAxis:6, y: 350, name:'Chord', symbolSize:20, symbol: 'image://../asset/ico/和弦图.png'},
+                    {xAxis:7, y: 350, name:'Force', symbolSize:20, symbol: 'image://../asset/ico/力导向图.png'},
+                    {xAxis:8, y: 350, name:'Map', symbolSize:20, symbol: 'image://../asset/ico/地图.png'},
+                    {xAxis:9, y: 350, name:'Gauge', symbolSize:20, symbol: 'image://../asset/ico/仪表盘.png'},
+                    {xAxis:10, y: 350, name:'Funnel', symbolSize:20, symbol: 'image://../asset/ico/漏斗图.png'},
+                ]
+            }
+        }
+    ]
+                };
+                
+             option = {
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['一周日用品貨物量','一周食品貨物量','一周藥物貨物量']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : ['周一','周二','周三','周四','周五','周六','周日']
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'一周日用品貨物量',
+            type:'line',
+            stack: '总量',
+            data:[120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name:'一周食品貨物量',
+            type:'line',
+            stack: '总量',
+            data:[220, 182, 191, 234, 290, 330, 310]
+        },
+        {
+            name:'一周藥物貨物量',
+            type:'line',
+            stack: '总量',
+            data:[150, 232, 201, 154, 190, 330, 410]
+        }
+    ]
+};
+                       
+                
+                myChart.setOption(option);
+            }
+        );
+    </script>
+    
+    <div id="main1" style="height:400px;"></div>
+    		<script type="text/javascript">
+        require.config({
+            paths: {
+                echarts: './resource/js/dist'
+            }
+        });
+        require(
+            [
+                'echarts',
+                'echarts/chart/line',   // 按需加载所需图表，如需动态类型切换功能，别忘了同时加载相应图表
+                'echarts/chart/bar'
+            ],
+            function (ec) {
+                var myChart = ec.init(document.getElementById('main1'));
+                var option = {
+                	 title: {
+        x: 'center',
+        text: '',
+        subtext: '',
+        link: 'http://echarts.baidu.com/doc/example.html'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+        }
+    },
+    calculable: true,
+    grid: {
+        borderWidth: 0,
+        y: 80,
+        y2: 60
+    },
+    xAxis: [
+        {
+            type: 'category',
+            show: false,
+            data: ['週一', '週二', '週三', '週四', '週五', '週六', '週日']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            show: false
+        }
+    ],
+    series: [
+        {
+            name: '統計頁面',
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function(params) {
+                        // build a color map as your need.
+                        var colorList = [
+                          '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                           '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
+                           '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{b}\n{c}'
+                    }
+                }
+            },
+            data: [12,21,10,4,12,5,6],
+            markPoint: {
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    formatter: function(params){
+                        return '<img src="' 
+                                + params.data.symbol.replace('image://', '')
+                                + '"/>';
+                    }
+                },
+                data: [
+                    {xAxis:0, y: 350, name:'Line', symbolSize:20, symbol: 'image://../asset/ico/折线图.png'},
+                    {xAxis:1, y: 350, name:'Bar', symbolSize:20, symbol: 'image://../asset/ico/柱状图.png'},
+                    {xAxis:2, y: 350, name:'Scatter', symbolSize:20, symbol: 'image://../asset/ico/散点图.png'},
+                    {xAxis:3, y: 350, name:'K', symbolSize:20, symbol: 'image://../asset/ico/K线图.png'},
+                    {xAxis:4, y: 350, name:'Pie', symbolSize:20, symbol: 'image://../asset/ico/饼状图.png'},
+                    {xAxis:5, y: 350, name:'Radar', symbolSize:20, symbol: 'image://../asset/ico/雷达图.png'},
+                    {xAxis:6, y: 350, name:'Chord', symbolSize:20, symbol: 'image://../asset/ico/和弦图.png'},
+                    {xAxis:7, y: 350, name:'Force', symbolSize:20, symbol: 'image://../asset/ico/力导向图.png'},
+                    {xAxis:8, y: 350, name:'Map', symbolSize:20, symbol: 'image://../asset/ico/地图.png'},
+                    {xAxis:9, y: 350, name:'Gauge', symbolSize:20, symbol: 'image://../asset/ico/仪表盘.png'},
+                    {xAxis:10, y: 350, name:'Funnel', symbolSize:20, symbol: 'image://../asset/ico/漏斗图.png'},
+                ]
+            }
+        }
+    ]
+                };
+                
+                       
+                
+                myChart.setOption(option);
+            }
+        );
+    </script>
+
+	</div>
+</div>
+	</body>
+</html>

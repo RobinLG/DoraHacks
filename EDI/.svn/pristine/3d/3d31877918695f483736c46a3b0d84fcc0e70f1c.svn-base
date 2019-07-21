@@ -1,0 +1,272 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%  
+pageContext.setAttribute("path", request.getContextPath());
+    String path = request.getContextPath();  
+    String basePath = request.getScheme() + "://"  
+            + request.getServerName() + ":" + request.getServerPort()  
+            + path + "/";  
+    String username = ""; //用户名    	
+	   String password = ""; //密码    	
+    Cookie[] cookies = request.getCookies();    	//保存有cookie对象    	
+	   if(cookies != null && cookies.length > 0){    		
+		   for(Cookie c: cookies){    			
+			   if(c.getName().equals("cqsscUserName")){
+				   username = c.getValue().split("-")[0]; 
+				   password = c.getValue().split("-")[1]; 
+				   }
+			   if(c.getName().equals("passwird")){ 
+				 //  password = c.getValue();    			
+				 } 
+			   }    	
+		   }
+%> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	<link type="text/css" rel="stylesheet" href="${path}/resource/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="${path}/resource/css/customs.css">
+    <script src="${path}/resource/js/jquery.min.js"></script>
+    <script src="${path}/resource/js/bootstrap.min.js"></script>
+    <script src="${path}/resource/js/jquery.cookie.js"></script>
+	<script src="${path}/resource/js/jquery.validate.min.js"></script>
+    <script src="${path}/resource/s/common.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+	<div class="col-sm-12">
+		<div class="">
+			<h3 class="text-center">
+				demo标题
+			</h3>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="col-sm-2">
+			<ul class="nav nav-list">
+				<li class="h3">
+					列表标题
+				</li>
+				<li class="h4">
+					<a href="../admin/toIndex">首页</a>
+				</li>
+				<li class="active h4" style="background-color: bisque;">
+					<a href="#">进口准照填写</a>
+				</li>
+				
+			</ul>
+		</div>
+		<div class="col-sm-10 h4" style="margin-top: 80px;">
+		<nav class="navbar navbar-default" role="navigation">	
+            <div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">准照基本資料</a></li>
+        </ul>
+   </div>
+  </nav>
+<div class="row">
+	<form class="form-horizontal" style="margin-bottom: 30px;">
+		<div class="row"><label class="col-md-12">進口商資料</label></div>
+				<div style="border: solid black;padding: 20px;border-radius: 10px;color: black;">
+					<div class="form-group">
+					<label class="col-md-1 control-label">編號：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-1 control-label">參照：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-1 control-label">名稱：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-1 control-label" for="title">地址：</label>
+					<div class="col-md-11">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+			</div>
+			
+			<div class="row" style="margin-top: 10px;"><label class="col-md-12">付貨人資料</label></div>
+				<div style="border: solid black;padding: 20px;border-radius: 10px;color: black;">
+					<div class="form-group">
+					<label class="col-md-1 control-label">名稱：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-1 control-label" for="title">地址：</label>
+					<div class="col-md-11">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+			</div>
+			<div class="row">
+				<div  style="padding: 20px;padding-bottom:0;border-radius: 10px;color: black;">
+					<div class="form-group">
+					<label class="col-md-1 control-label" for="title">来源地：</label>
+					<div class="col-md-2">
+					<select class="form-control"  style="">
+						<option>A</option>
+						<option>B</option>
+					</select>
+					</div>
+					<label class="col-md-2 control-label" for="title">进口地点：</label>
+					<div class="col-md-2">
+					<select class="form-control"  style="">
+						<option>A</option>
+						<option>B</option>
+					</select>
+					</div>
+					<label class="col-md-2 control-label" for="title">运输方式：</label>
+					<div class="col-md-2">
+					<select class="form-control"  style="">
+						<option>A</option>
+						<option>B</option>
+					</select>
+					</div>
+					</div>
+			</div>
+			
+				<div  style="padding: 20px;padding-top:0;padding-bottom:0;border-radius: 10px;color: black;">
+					<div class="form-group">
+					<label class="col-md-1 control-label" for="title">發貨地：</label>
+					<div class="col-md-2">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label" for="title">查貨相片數量：</label>
+					<div class="col-md-2">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label" for="title">總毛重（KG）：</label>
+					<div class="col-md-2">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+			</div>
+			
+			<div  style="padding: 20px;padding-top:0;padding-bottom:0;border-radius: 10px;color: black;">
+					<div class="form-group">
+					<label class="col-md-1 control-label" for="title">司機證件：</label>
+					<div class="col-md-2">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label" for="title">貨櫃編號：</label>
+					<div class="col-md-2">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label" for="title">車輛編號：</label>
+					<div class="col-md-2">
+					<input class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+			</div>
+			</div>
+			
+						<div class="row"><label class="col-md-12">貨物資料</label></div>
+				<div style="border: solid black;padding: 20px;border-radius: 10px;color: black;">
+					<div class="form-group">
+					<label class="col-md-2 control-label">項目編號：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label">SH編碼：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label">内地SH編碼：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label">訂單編號：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label" for="title">原產地國家或地區：</label>
+					<div class="col-md-2">
+					<select class="form-control"  style="">
+						<option>A</option>
+						<option>B</option>
+					</select>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label">包裝形式：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label">包裝數量：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label">淨重（公斤）：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label">數量：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label">單位：</label>
+					<div class="col-md-2">
+					<select class="form-control"  style="">
+						<option>A</option>
+						<option>B</option>
+					</select>
+					</div>
+					</div>
+					<div class="form-group">
+					<label class="col-md-2 control-label">到岸價格：</label>
+					<div class="col-md-2">
+					<input  class="form-control input-small input-inline" type="text" style=""/>
+					</div>
+					<label class="col-md-2 control-label">貨幣：</label>
+					<div class="col-md-2">
+					<select class="form-control"  style="">
+						<option>A</option>
+						<option>B</option>
+					</select>
+					</div>
+					</div>
+			</div>
+			
+			<div class="form-group" style="margin-left: 250px;margin-top: 20px;">
+				<div class="col-sm-2">
+					<button class="btn" type="button">保存</button>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn" type="button">清空</button>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn" type="button">提供</button>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn" type="button">返回</button>
+				</div>
+				</div>
+			</form>
+	
+</div>			
+			
+              
+		</div>
+	</div>
+</div>
+	</body>
+</html>
