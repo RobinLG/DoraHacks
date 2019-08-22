@@ -13,7 +13,11 @@
 #### 统计局：定时向海关申请获取相关数据进行数据的统计和分析。
 旧系统机构间的组织结构和数据传输方式如下简图：
 
+![Image text](https://github.com/RobinLG/DoraHacks/blob/master/img/%E5%8E%9F%E6%B5%81%E7%A8%8B.png)
+
 结合FISCO-BCOS改造后的新系统的结构和流程截图如下：
+
+![Image text](https://github.com/RobinLG/DoraHacks/blob/master/img/%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
 
 注意：为了使简图清晰易懂，简化了其中的一些流程和文字，如有引起误解还请读者谅解。
 
